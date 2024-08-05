@@ -136,6 +136,11 @@ async def chain(response: Response):
         )
     async with httpx.AsyncClient() as client:
         await client.get(
+            f"http://{TARGET_ONE_HOST}:8000/random_sleep",
+            headers=headers,
+        )
+    async with httpx.AsyncClient() as client:
+        await client.get(
             f"http://{TARGET_TWO_HOST}:8000/cpu_task",
             headers=headers,
         )
