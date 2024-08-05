@@ -1,8 +1,7 @@
-version: "3.4"
-
 services:
   app-a:
     # build: ./fastapi_app/
+    container_name: app-a
     image: ghcr.io/blueswen/fastapi-jaeger/app:latest
     ports:
       - "8000:8000"
@@ -17,6 +16,7 @@ services:
   
   app-b:
     # build: ./fastapi_app/
+    container_name: app-b
     image: ghcr.io/blueswen/fastapi-jaeger/app:latest
     ports:
       - "8001:8000"
@@ -31,6 +31,7 @@ services:
   
   app-c:
     # build: ./fastapi_app/
+    container_name: app-c
     image: ghcr.io/blueswen/fastapi-jaeger/app:latest
     ports:
       - "8002:8000"
@@ -44,6 +45,7 @@ services:
       TARGET_TWO_HOST: "app-c"
 
   app-d:
+    container_name: app-d
     build: ./fastapi_app/
     ports:
       - "8003:8000"
@@ -57,6 +59,7 @@ services:
       TARGET_TWO_HOST: "app-c"
 
   jaeger-collector:
+    container_name: jaeger-collector
     image: jaegertracing/jaeger-collector:1.57.0
     command: 
       - "--cassandra.keyspace=jaeger_v1_dc1"
@@ -72,14 +75,17 @@ services:
       - cassandra-schema
 
   cassandra:
+    container_name: cassandra
     image: cassandra:4.1.4
 
   cassandra-schema:
+    container_name: cassandra-schema
     image: jaegertracing/jaeger-cassandra-schema:1.57.0
     depends_on:
       - cassandra
 
   jaeger-query:
+    container_name: jaeger-query
     image: jaegertracing/jaeger-query:1.57.0
     command:
       - "--cassandra.keyspace=jaeger_v1_dc1"
@@ -92,6 +98,7 @@ services:
       - cassandra-schema
 
   otel-collector:
+    container_name: otel-collector
     image: otel/opentelemetry-collector-contrib:0.100.0
     command:
       - "--config=/conf/config.yaml"
